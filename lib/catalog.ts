@@ -133,7 +133,13 @@ export function search(q: string, domain?: Domain, limit = 25): Node[] {
     else if (e.text.includes(s)) score = 4;
     if (score >= 0) scored.push({ n, score: score + Math.min(n.name.length, 60) / 100 - (n.children.length ? 0.2 : 0) });
   }
-  return scored.sort((a, b) => a.score - b.score).slice(0, limit).map((x) => x.n);
+  const out = scored.sort((a, b) => a.score - b.score).slice(0, limit).map((x) => x.n);
+  // Few hits inside the chosen section: add matches from the other sections so nothing is hidden.
+  if (domain && out.length < 5) {
+    const extra = search(q, undefined, limit).filter((n) => !out.includes(n));
+    return [...out, ...extra].slice(0, limit);
+  }
+  return out;
 }
 
 export function inDomain(n: Node, domain: Domain): boolean {
