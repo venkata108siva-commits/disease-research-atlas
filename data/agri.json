@@ -1,0 +1,99 @@
+{
+  "name": "Agriculture problems",
+  "note": "Curated list of agricultural problems grouped by type, using FAO and standard agronomy categories. Each entry searches the peer-reviewed literature.",
+  "groups": [
+    {
+      "name": "Abiotic stress",
+      "query": "KW:\"Stress, Physiological\" AND (plant OR crop) AND (drought OR salinity OR heat OR flood OR cold)",
+      "items": [
+        { "name": "Drought stress", "query": "(KW:\"Droughts\" OR \"drought stress\" OR \"water deficit\") AND (crop OR plant OR agriculture)", "syn": ["Water deficit", "Drought tolerance"] },
+        { "name": "Salinity stress", "query": "(KW:\"Salt Tolerance\" OR KW:\"Salinity\" OR \"salt stress\" OR \"salinity stress\") AND (crop OR plant OR soil)", "syn": ["Salt stress", "Soil salinization"] },
+        { "name": "Heat stress", "query": "(\"heat stress\" OR \"high temperature stress\" OR KW:\"Thermotolerance\") AND (crop OR plant OR agriculture)", "syn": ["High temperature stress", "Thermotolerance"] },
+        { "name": "Flooding and waterlogging", "query": "(flooding OR waterlogging OR submergence OR \"anaerobic stress\") AND (crop OR plant OR rice)", "syn": ["Submergence", "Waterlogging"] },
+        { "name": "Cold and frost stress", "query": "(\"cold stress\" OR \"frost\" OR \"chilling stress\" OR \"freezing tolerance\") AND (crop OR plant)", "syn": ["Chilling stress", "Freezing tolerance"] },
+        { "name": "Heavy metal toxicity", "query": "(\"heavy metal\" OR cadmium OR arsenic OR lead OR KW:\"Metals, Heavy\") AND (crop OR plant OR soil OR rice) AND (toxicity OR stress OR contamination)", "syn": ["Cadmium toxicity", "Arsenic in rice"] },
+        { "name": "UV and ozone damage", "query": "(\"UV-B\" OR ozone OR \"tropospheric ozone\") AND (crop OR plant) AND (damage OR stress OR yield)", "syn": ["UV-B stress", "Ozone injury"] }
+      ]
+    },
+    {
+      "name": "Soil problems",
+      "query": "(KW:\"Soil\" OR soil) AND (degradation OR erosion OR fertility OR acidity OR \"organic matter\") AND (crop OR agriculture)",
+      "items": [
+        { "name": "Soil erosion", "query": "\"soil erosion\" AND (agriculture OR crop OR farmland OR conservation)", "syn": ["Land degradation"] },
+        { "name": "Soil fertility decline", "query": "(\"soil fertility\" OR \"nutrient depletion\" OR \"soil organic matter\" OR \"soil health\") AND (decline OR degradation OR management OR crop)", "syn": ["Soil health", "Nutrient depletion"] },
+        { "name": "Soil acidity and aluminium toxicity", "query": "(\"soil acidity\" OR \"acid soil\" OR \"aluminium toxicity\" OR \"aluminum toxicity\") AND (crop OR plant OR agriculture)", "syn": ["Acid soils", "Aluminium toxicity"] },
+        { "name": "Soil salinization and sodicity", "query": "(\"soil salinization\" OR \"saline soil\" OR \"sodic soil\" OR \"salt-affected soil\")", "syn": ["Salt-affected soils", "Sodic soils"] },
+        { "name": "Soil compaction", "query": "\"soil compaction\" AND (crop OR agriculture OR tillage)", "syn": ["Hardpan"] },
+        { "name": "Soil microbiome and biofertilizers", "query": "(biofertilizer OR \"plant growth-promoting\" OR rhizobacteria OR mycorrhiza OR \"soil microbiome\") AND (crop OR agriculture)", "syn": ["PGPR", "Mycorrhiza", "Biofertilizer"] }
+      ]
+    },
+    {
+      "name": "Pests",
+      "query": "(KW:\"Insecta\" OR pest) AND (crop OR agriculture) AND (damage OR control OR management)",
+      "items": [
+        { "name": "Fall armyworm", "query": "(\"fall armyworm\" OR \"Spodoptera frugiperda\")", "syn": ["Spodoptera frugiperda"] },
+        { "name": "Bollworms", "query": "(bollworm OR \"Helicoverpa armigera\" OR \"pink bollworm\" OR \"Pectinophora gossypiella\")", "syn": ["Helicoverpa armigera", "Pink bollworm"] },
+        { "name": "Stem borers", "query": "(\"stem borer\" OR \"Chilo partellus\" OR \"Scirpophaga incertulas\" OR \"yellow stem borer\")", "syn": ["Yellow stem borer", "Chilo partellus"] },
+        { "name": "Aphids", "query": "(aphid OR Aphididae OR KW:\"Aphids\") AND (crop OR plant OR agriculture)", "syn": ["Aphis", "Myzus persicae"] },
+        { "name": "Whiteflies", "query": "(whitefly OR \"Bemisia tabaci\")", "syn": ["Bemisia tabaci"] },
+        { "name": "Thrips", "query": "(thrips OR Thysanoptera) AND (crop OR plant)", "syn": ["Thysanoptera"] },
+        { "name": "Locusts and grasshoppers", "query": "(locust OR \"Schistocerca gregaria\" OR \"Locusta migratoria\")", "syn": ["Desert locust"] },
+        { "name": "Fruit flies", "query": "(\"fruit fly\" OR Bactrocera OR Tephritidae) AND (fruit OR crop OR mango OR cucurbit)", "syn": ["Bactrocera dorsalis", "Tephritidae"] },
+        { "name": "Mites", "query": "(\"spider mite\" OR Tetranychus OR \"eriophyid\") AND (crop OR plant)", "syn": ["Tetranychus urticae"] },
+        { "name": "Storage pests", "query": "(\"stored grain\" OR \"storage pest\" OR \"Sitophilus\" OR \"Tribolium\" OR \"Callosobruchus\") AND (pest OR infestation OR damage)", "syn": ["Rice weevil", "Pulse beetle", "Red flour beetle"] },
+        { "name": "Rodents and birds", "query": "(rodent OR rat OR bird) AND (crop damage OR \"crop loss\" OR agriculture OR grain)", "syn": ["Rodent damage", "Bird damage"] },
+        { "name": "Weeds", "query": "(KW:\"Weed Control\" OR weed OR \"herbicide resistance\") AND (crop OR agriculture)", "syn": ["Herbicide resistance", "Parthenium", "Phalaris minor"] }
+      ]
+    },
+    {
+      "name": "Water and irrigation",
+      "query": "(irrigation OR \"water use efficiency\" OR \"water scarcity\") AND (crop OR agriculture)",
+      "items": [
+        { "name": "Water scarcity and groundwater depletion", "query": "(\"water scarcity\" OR \"groundwater depletion\" OR \"groundwater decline\") AND (agriculture OR irrigation OR crop)", "syn": ["Groundwater depletion"] },
+        { "name": "Irrigation efficiency", "query": "(\"drip irrigation\" OR \"micro-irrigation\" OR \"water use efficiency\" OR \"deficit irrigation\") AND crop", "syn": ["Drip irrigation", "Deficit irrigation"] },
+        { "name": "Water quality and contamination", "query": "(\"irrigation water quality\" OR \"wastewater irrigation\" OR \"fluoride\" OR \"nitrate contamination\") AND (agriculture OR crop OR groundwater)", "syn": ["Wastewater irrigation", "Nitrate pollution"] }
+      ]
+    },
+    {
+      "name": "Climate change",
+      "query": "(KW:\"Climate Change\" OR \"climate change\") AND (crop OR agriculture OR yield OR farming)",
+      "items": [
+        { "name": "Climate change and crop yield", "query": "(\"climate change\" AND (yield OR productivity) AND (crop OR agriculture))", "syn": ["Yield loss", "Climate impact"] },
+        { "name": "Climate-resilient agriculture", "query": "(\"climate-smart agriculture\" OR \"climate resilient\" OR \"climate adaptation\") AND (crop OR farming OR agriculture)", "syn": ["Climate-smart agriculture"] },
+        { "name": "Greenhouse gas emissions from farming", "query": "(methane OR \"nitrous oxide\" OR \"greenhouse gas\") AND (rice OR livestock OR agriculture OR fertilizer) AND emission", "syn": ["Methane from rice", "Nitrous oxide"] }
+      ]
+    },
+    {
+      "name": "Post-harvest and food safety",
+      "query": "(\"post-harvest\" OR postharvest OR \"food loss\") AND (crop OR grain OR fruit OR vegetable)",
+      "items": [
+        { "name": "Post-harvest losses", "query": "(\"post-harvest loss\" OR \"postharvest loss\" OR \"food loss\" OR \"storage loss\") AND (grain OR fruit OR vegetable OR crop)", "syn": ["Storage loss", "Food loss"] },
+        { "name": "Mycotoxins in food", "query": "(mycotoxin OR aflatoxin OR ochratoxin OR fumonisin) AND (food OR grain OR feed OR contamination)", "syn": ["Aflatoxin", "Ochratoxin", "Fumonisin"] },
+        { "name": "Pesticide residues", "query": "(\"pesticide residue\" OR KW:\"Pesticide Residues\") AND (food OR vegetable OR fruit OR crop)", "syn": ["Residue limits", "MRL"] },
+        { "name": "Fruit ripening and shelf life", "query": "(\"shelf life\" OR ripening OR \"postharvest quality\") AND (fruit OR vegetable) AND (storage OR coating OR ethylene)", "syn": ["Shelf life", "Edible coatings"] }
+      ]
+    },
+    {
+      "name": "Inputs and sustainability",
+      "query": "(fertilizer OR pesticide OR \"organic farming\" OR \"sustainable agriculture\") AND (crop OR soil OR yield)",
+      "items": [
+        { "name": "Fertilizer overuse and nitrogen pollution", "query": "(\"fertilizer overuse\" OR \"nitrogen use efficiency\" OR \"nutrient runoff\" OR eutrophication) AND (agriculture OR crop OR fertilizer)", "syn": ["Nitrogen use efficiency", "Eutrophication"] },
+        { "name": "Pesticide resistance", "query": "(\"insecticide resistance\" OR \"pesticide resistance\" OR \"fungicide resistance\") AND (pest OR crop OR agriculture)", "syn": ["Insecticide resistance", "Fungicide resistance"] },
+        { "name": "Organic and natural farming", "query": "(\"organic farming\" OR \"natural farming\" OR \"zero budget\" OR agroecology) AND (yield OR soil OR crop)", "syn": ["Natural farming", "Agroecology"] },
+        { "name": "Biopesticides and biocontrol", "query": "(biopesticide OR \"biological control\" OR Trichoderma OR \"Bacillus thuringiensis\" OR \"neem oil\") AND (pest OR disease OR crop)", "syn": ["Biocontrol", "Trichoderma", "Bt"] },
+        { "name": "Pollinator decline", "query": "(pollinator OR \"honey bee\" OR \"bee decline\" OR \"colony collapse\") AND (agriculture OR crop OR pollination)", "syn": ["Bee decline", "Pollination services"] },
+        { "name": "Seed quality and germination", "query": "(\"seed quality\" OR \"seed germination\" OR \"seed vigour\" OR \"seed vigor\" OR \"seed priming\") AND crop", "syn": ["Seed priming", "Seed vigour"] }
+      ]
+    },
+    {
+      "name": "Livestock and fisheries production",
+      "query": "(livestock OR dairy OR poultry OR aquaculture) AND (production OR productivity OR feed OR management)",
+      "items": [
+        { "name": "Feed and fodder shortage", "query": "(\"fodder\" OR \"feed shortage\" OR \"feed efficiency\" OR \"crop residue\") AND (livestock OR cattle OR ruminant OR dairy)", "syn": ["Fodder scarcity", "Feed efficiency"] },
+        { "name": "Heat stress in livestock", "query": "\"heat stress\" AND (cattle OR dairy OR poultry OR livestock OR buffalo)", "syn": ["Thermal stress in cattle"] },
+        { "name": "Antibiotic use in livestock", "query": "(\"antimicrobial resistance\" OR \"antibiotic use\" OR \"antibiotic residue\") AND (livestock OR poultry OR aquaculture OR dairy)", "syn": ["AMR in livestock", "Antibiotic residues"] },
+        { "name": "Aquaculture water quality and disease", "query": "(aquaculture OR \"fish farming\" OR shrimp) AND (\"water quality\" OR disease OR mortality OR ammonia)", "syn": ["Shrimp farming", "Fish disease"] }
+      ]
+    }
+  ]
+}

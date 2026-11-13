@@ -1,0 +1,98 @@
+{
+  "name": "Plant diseases (by cause)",
+  "note": "Curated list of plant diseases grouped by causal agent, following standard plant pathology classification. Each entry searches the peer-reviewed literature by name and pathogen.",
+  "groups": [
+    {
+      "name": "Fungal diseases",
+      "query": "\"plant disease\" AND (KW:\"Fungi\" OR KW:\"Plant Diseases\") AND (fungal OR fungus)",
+      "items": [
+        { "name": "Rust diseases", "query": "(\"rust disease\" OR \"leaf rust\" OR \"stem rust\" OR \"stripe rust\" OR Puccinia OR Uromyces) AND (plant OR crop OR wheat OR coffee OR soybean)", "syn": ["Wheat rust", "Coffee leaf rust", "Soybean rust"] },
+        { "name": "Powdery mildew", "query": "\"powdery mildew\" AND (plant OR crop)", "syn": ["Erysiphe", "Blumeria", "Podosphaera"] },
+        { "name": "Downy mildew", "query": "\"downy mildew\" AND (plant OR crop)", "syn": ["Peronospora", "Plasmopara", "Pseudoperonospora"] },
+        { "name": "Anthracnose", "query": "anthracnose AND (Colletotrichum OR plant OR crop OR mango OR chilli)", "syn": ["Colletotrichum"] },
+        { "name": "Fusarium wilt", "query": "(\"Fusarium wilt\" OR \"Fusarium oxysporum\") AND (plant OR crop OR banana OR tomato OR chickpea)", "syn": ["Panama disease of banana", "Fusarium oxysporum"] },
+        { "name": "Verticillium wilt", "query": "\"Verticillium wilt\" OR (Verticillium AND wilt AND plant)", "syn": ["Verticillium dahliae"] },
+        { "name": "Rice blast", "query": "(\"rice blast\" OR \"Magnaporthe oryzae\" OR \"Pyricularia oryzae\")", "syn": ["Magnaporthe oryzae"] },
+        { "name": "Sheath blight of rice", "query": "(\"sheath blight\" AND rice) OR (\"Rhizoctonia solani\" AND rice)", "syn": ["Rhizoctonia solani"] },
+        { "name": "Late blight", "query": "(\"late blight\" OR \"Phytophthora infestans\") AND (potato OR tomato)", "syn": ["Phytophthora infestans", "Potato blight"] },
+        { "name": "Early blight", "query": "(\"early blight\" OR \"Alternaria solani\") AND (potato OR tomato)", "syn": ["Alternaria solani"] },
+        { "name": "Leaf spot diseases", "query": "(\"leaf spot\" OR Cercospora OR Septoria OR Alternaria) AND (plant OR crop OR leaf)", "syn": ["Cercospora leaf spot", "Septoria", "Alternaria leaf spot"] },
+        { "name": "Root rot", "query": "(\"root rot\" AND (plant OR crop)) OR (Phytophthora AND \"root rot\") OR (Pythium AND \"root rot\")", "syn": ["Phytophthora root rot", "Pythium"] },
+        { "name": "Damping-off", "query": "\"damping-off\" OR \"damping off\" AND (seedling OR Pythium OR Rhizoctonia)", "syn": ["Seedling blight"] },
+        { "name": "Smut and bunt", "query": "(smut OR bunt OR Ustilago OR Tilletia OR Sporisorium) AND (plant OR crop OR wheat OR sugarcane OR maize)", "syn": ["Loose smut", "Sugarcane smut", "Karnal bunt"] },
+        { "name": "Ergot", "query": "(ergot OR \"Claviceps purpurea\" OR Claviceps) AND (plant OR crop OR cereal OR rye OR sorghum)", "syn": ["Claviceps"] },
+        { "name": "Botrytis grey mould", "query": "(\"Botrytis cinerea\" OR \"grey mould\" OR \"gray mold\") AND (plant OR fruit OR crop)", "syn": ["Botrytis cinerea"] },
+        { "name": "Aflatoxin and storage moulds", "query": "(Aspergillus OR aflatoxin) AND (grain OR groundnut OR peanut OR maize OR storage OR crop)", "syn": ["Aspergillus flavus", "Aflatoxin contamination"] },
+        { "name": "Red rot of sugarcane", "query": "(\"red rot\" AND sugarcane) OR \"Colletotrichum falcatum\"", "syn": ["Colletotrichum falcatum"] },
+        { "name": "Tikka leaf spot of groundnut", "query": "(\"tikka\" OR \"late leaf spot\" OR \"early leaf spot\") AND (groundnut OR peanut)", "syn": ["Cercospora arachidicola", "Phaeoisariopsis personata"] }
+      ]
+    },
+    {
+      "name": "Bacterial diseases",
+      "query": "(\"bacterial disease\" OR phytopathogenic bacteria) AND (plant OR crop)",
+      "items": [
+        { "name": "Bacterial blight of rice", "query": "(\"bacterial blight\" AND rice) OR \"Xanthomonas oryzae\"", "syn": ["Xanthomonas oryzae"] },
+        { "name": "Bacterial wilt", "query": "(\"bacterial wilt\" OR \"Ralstonia solanacearum\") AND (plant OR crop OR tomato OR potato OR brinjal)", "syn": ["Ralstonia solanacearum"] },
+        { "name": "Citrus canker", "query": "\"citrus canker\" OR \"Xanthomonas citri\"", "syn": ["Xanthomonas citri"] },
+        { "name": "Citrus greening (HLB)", "query": "(\"citrus greening\" OR Huanglongbing OR \"Candidatus Liberibacter\")", "syn": ["Huanglongbing", "Candidatus Liberibacter asiaticus"] },
+        { "name": "Soft rot", "query": "(\"soft rot\" AND (plant OR crop OR potato OR vegetable)) OR Pectobacterium OR \"Erwinia carotovora\"", "syn": ["Pectobacterium", "Erwinia"] },
+        { "name": "Fire blight", "query": "\"fire blight\" OR \"Erwinia amylovora\"", "syn": ["Erwinia amylovora"] },
+        { "name": "Crown gall", "query": "\"crown gall\" OR \"Agrobacterium tumefaciens\" AND plant", "syn": ["Agrobacterium tumefaciens"] },
+        { "name": "Bacterial leaf spot and speck", "query": "(\"bacterial leaf spot\" OR \"bacterial speck\" OR \"Pseudomonas syringae\") AND (plant OR crop OR tomato OR pepper)", "syn": ["Pseudomonas syringae", "Xanthomonas"] },
+        { "name": "Pierce's disease and olive quick decline", "query": "\"Xylella fastidiosa\"", "syn": ["Xylella fastidiosa"] },
+        { "name": "Phytoplasma diseases", "query": "(phytoplasma OR \"Candidatus Phytoplasma\") AND (plant OR crop OR disease)", "syn": ["Aster yellows", "Sesame phyllody", "Sugarcane grassy shoot"] }
+      ]
+    },
+    {
+      "name": "Viral and viroid diseases",
+      "query": "(KW:\"Plant Viruses\" OR \"plant virus\") AND (plant OR crop)",
+      "items": [
+        { "name": "Tomato leaf curl", "query": "(\"tomato leaf curl\" OR \"tomato yellow leaf curl\" OR Begomovirus) AND tomato", "syn": ["Begomovirus", "ToLCV", "TYLCV"] },
+        { "name": "Cotton leaf curl", "query": "\"cotton leaf curl\" OR (Begomovirus AND cotton)", "syn": ["CLCuV"] },
+        { "name": "Mosaic viruses", "query": "(\"mosaic virus\" OR \"Tobacco mosaic virus\" OR \"Cucumber mosaic virus\" OR \"Cassava mosaic\") AND plant", "syn": ["TMV", "CMV", "Cassava mosaic disease"] },
+        { "name": "Banana bunchy top", "query": "\"banana bunchy top\" OR BBTV", "syn": ["BBTV"] },
+        { "name": "Papaya ringspot", "query": "\"papaya ringspot\" OR PRSV", "syn": ["PRSV"] },
+        { "name": "Rice tungro", "query": "\"rice tungro\" OR tungro", "syn": ["Tungro virus"] },
+        { "name": "Potato viruses", "query": "(\"Potato virus Y\" OR \"Potato leafroll virus\" OR \"potato virus\") AND potato", "syn": ["PVY", "PLRV"] },
+        { "name": "Chilli leaf curl and mosaic", "query": "(\"leaf curl\" OR mosaic OR virus) AND (chilli OR chili OR \"Capsicum annuum\")", "syn": ["ChiLCV"] },
+        { "name": "Viroids", "query": "viroid AND (plant OR crop OR potato OR citrus OR coconut)", "syn": ["Potato spindle tuber viroid", "Coconut cadang-cadang"] }
+      ]
+    },
+    {
+      "name": "Nematode diseases",
+      "query": "(nematode OR Meloidogyne OR Heterodera OR Pratylenchus) AND (plant OR crop OR root)",
+      "items": [
+        { "name": "Root-knot nematode", "query": "(\"root-knot nematode\" OR \"root knot nematode\" OR Meloidogyne)", "syn": ["Meloidogyne incognita"] },
+        { "name": "Cyst nematodes", "query": "(\"cyst nematode\" OR Heterodera OR Globodera)", "syn": ["Heterodera", "Globodera"] },
+        { "name": "Lesion and burrowing nematodes", "query": "(Pratylenchus OR Radopholus OR \"lesion nematode\" OR \"burrowing nematode\")", "syn": ["Pratylenchus", "Radopholus similis"] }
+      ]
+    },
+    {
+      "name": "Oomycete diseases",
+      "query": "(Phytophthora OR Pythium OR oomycete) AND (plant OR crop OR disease)",
+      "items": [
+        { "name": "Phytophthora diseases", "query": "Phytophthora AND (plant OR crop OR disease OR blight OR rot)", "syn": ["Phytophthora infestans", "Phytophthora capsici", "Phytophthora palmivora"] },
+        { "name": "Pythium diseases", "query": "Pythium AND (plant OR crop OR seedling OR \"damping-off\")", "syn": ["Pythium aphanidermatum"] }
+      ]
+    },
+    {
+      "name": "Parasitic plants and weeds",
+      "query": "(\"parasitic plant\" OR Striga OR Orobanche OR Cuscuta OR \"parasitic weed\")",
+      "items": [
+        { "name": "Striga (witchweed)", "query": "Striga AND (crop OR sorghum OR maize OR millet OR parasitic)", "syn": ["Witchweed"] },
+        { "name": "Orobanche (broomrape)", "query": "Orobanche OR broomrape OR Phelipanche", "syn": ["Broomrape"] },
+        { "name": "Cuscuta (dodder)", "query": "Cuscuta OR dodder AND plant", "syn": ["Dodder"] }
+      ]
+    },
+    {
+      "name": "Abiotic and physiological disorders",
+      "query": "(\"physiological disorder\" OR \"abiotic stress\" OR \"nutrient deficiency\") AND (plant OR crop)",
+      "items": [
+        { "name": "Nutrient deficiencies", "query": "(\"nutrient deficiency\" OR \"nitrogen deficiency\" OR \"iron deficiency\" OR \"zinc deficiency\" OR \"boron deficiency\" OR chlorosis) AND (plant OR crop)", "syn": ["Chlorosis", "Zinc deficiency", "Iron chlorosis"] },
+        { "name": "Blossom-end rot and calcium disorders", "query": "(\"blossom-end rot\" OR \"blossom end rot\" OR \"bitter pit\" OR \"tip burn\") AND (plant OR fruit OR tomato OR apple)", "syn": ["Bitter pit", "Tip burn"] },
+        { "name": "Sunscald, heat and cold injury", "query": "(sunscald OR \"heat injury\" OR \"chilling injury\" OR \"frost injury\" OR \"frost damage\") AND (plant OR crop OR fruit)", "syn": ["Chilling injury", "Frost damage"] },
+        { "name": "Herbicide and chemical injury", "query": "(\"herbicide injury\" OR \"herbicide damage\" OR phytotoxicity) AND (plant OR crop)", "syn": ["Phytotoxicity"] }
+      ]
+    }
+  ]
+}
