@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const n = getNode(id);
-  return { title: n ? `${n.name} · research filtered by source | Disease Research Atlas` : "Not found" };
+  return { title: n ? `${n.name} · research filtered by source | Research Atlas` : "Not found" };
 }
 
 export default async function DiseasePage({ params }: { params: Promise<{ id: string }> }) {

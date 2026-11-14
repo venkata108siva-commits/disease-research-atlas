@@ -16,11 +16,11 @@ export default function Home() {
               <BadgeCheck size={14} /> Peer-reviewed research only
             </span>
             <h1>
-              Every disease. Every study. <em>Filtered your way.</em>
+              Every topic. Every study. <em>Ranked and filtered.</em>
             </h1>
             <p>
-              Pick a human, animal or plant disease, or an agricultural problem, and see the published research on it, filtered by where the treatment comes
-              from: plants, fungi, bacteria, endophytes, insects, viruses and more.
+              Search any research topic, or pick a human, animal or plant disease or an agricultural problem. See the peer-reviewed research on it, standard
+              studies first, filtered by where the treatment comes from: plants, fungi, bacteria, endophytes, insects, viruses and more.
             </p>
             <div className="trust">
               <span>
@@ -40,7 +40,7 @@ export default function Home() {
           <div className="searchcard">
             <SearchBox />
             <div className="hint">
-              <span>Try: breast cancer · diabetes · mastitis · rice blast · drought stress · fall armyworm</span>
+              <span>Try: breast cancer · endophyte extraction · curcumin · mastitis · rice blast · drought stress</span>
             </div>
           </div>
 
@@ -65,9 +65,9 @@ export default function Home() {
           <div className="how">
             <div>
               <b>
-                <span className="num">1</span> Choose a disease
+                <span className="num">1</span> Search a topic or choose a disease
               </b>
-              <p>Search or browse the official classification down to sub-types, e.g. Cancer → Breast → Triple-negative.</p>
+              <p>Type anything (e.g. endophyte extraction) to get every paper on it, or browse the official disease classification down to sub-types.</p>
             </div>
             <div>
               <b>
@@ -79,10 +79,11 @@ export default function Home() {
             </div>
             <div>
               <b>
-                <span className="num">3</span> Verify every paper
+                <span className="num">3</span> Ranked & verified
               </b>
               <p>
-                Each result carries a <Verified /> and links to the original paper, plus a one-click check of the same search on PubMed and Europe PMC.
+                Standard studies first: systematic reviews, trials, reviews, then other articles; preprints last. Each paper carries a <Verified /> and links to the original, PubMed and
+                Europe PMC. The <b>Rank order</b> button shows the order used.
               </p>
             </div>
           </div>

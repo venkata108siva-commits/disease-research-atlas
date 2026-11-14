@@ -1,21 +1,23 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BookOpen, ChevronDown, ExternalLink, Filter, Lightbulb, Link2, RotateCcw, SlidersHorizontal, TriangleAlert, X } from "lucide-react";
+import { BookOpen, ChevronDown, ExternalLink, Filter, Lightbulb, Link2, ListOrdered, RotateCcw, SlidersHorizontal, TriangleAlert, X } from "lucide-react";
 import type { Domain } from "@/lib/catalog";
 import { COUNTRIES, SOURCES, STAGES, STUDY_TYPES, YEARS, type Filter as FDef, type Selection } from "@/lib/filters";
 import type { Paper } from "@/lib/epmc";
+import { TIERS } from "@/lib/rank";
 import { Pulse, Verified } from "./ui";
 
 type Counts = Record<string, number>;
-type PapersRes = { total: number; items: Paper[]; nextCursor?: string; query: string; verify: { europepmc: string; pubmed: string } };
+type RankedPaper = Paper & { tier?: number; tierLabel?: string };
+type PapersRes = { total: number; items: RankedPaper[]; nextCursor?: string; query: string; verify: { europepmc: string; pubmed: string } };
 
 const EMPTY: Selection = { sources: [], studies: [], stages: [], open: false };
 const nf = new Intl.NumberFormat("en");
 const compact = new Intl.NumberFormat("en", { notation: "compact" });
 
 function toParams(id: string, s: Selection, extra: Record<string, string> = {}) {
-  const p = new URLSearchParams({ id, ...extra });
+  const p = new URLSearchParams({ ...(id.startsWith("q:") ? { q: id.slice(2) } : { id }), ...extra });
   if (s.sources.length) p.set("sources", s.sources.join(","));
   if (s.studies.length) p.set("studies", s.studies.join(","));
   if (s.stages.length) p.set("stages", s.stages.join(","));
@@ -26,9 +28,10 @@ function toParams(id: string, s: Selection, extra: Record<string, string> = {}) 
   return p.toString();
 }
 
-export function Research({ id, name, domain }: { id: string; name: string; domain: Domain }) {
+export function Research({ id, name, domain }: { id: string; name: string; domain?: Domain }) {
   const [sel, setSel] = useState<Selection>(EMPTY);
-  const [sort, setSort] = useState<"relevance" | "cited" | "date">("relevance");
+  const [sort, setSort] = useState<"rank" | "relevance" | "cited" | "date">("rank");
+  const [showRank, setShowRank] = useState(false);
   const [res, setRes] = useState<PapersRes | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -62,7 +65,7 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
 
   useEffect(() => {
     const p = toParams("x", sel);
-    const h = p.replace(/^id=x&?/, "");
+    const h = p.replace(/^id=x&?/, "").replace(/&$/, "");
     history.replaceState(null, "", h ? `#${h}` : location.pathname);
   }, [sel]);
 
@@ -93,7 +96,7 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
     setCounts({});
     setTrend(null);
     (async () => {
-      const groups = ["sources", "studies", "stages"];
+      const groups = ["sources", "studies", "stages", "tiers"];
       await Promise.all([
         ...groups.map(async (g) => {
           const r = await fetch(`/api/counts?${toParams(id, sel, { group: g })}`);
@@ -245,15 +248,55 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
           <button className="btn sm filterbtn" onClick={() => setShowFilters(true)}>
             <SlidersHorizontal size={14} /> Filters{activeCount ? ` (${activeCount})` : ""}
           </button>
+          <button className={`btn sm ${showRank ? "primary" : ""}`} onClick={() => setShowRank((v) => !v)} aria-expanded={showRank} aria-controls="rank-panel">
+            <ListOrdered size={14} /> Rank order
+          </button>
           <div className="sort">
             Sort
             <select value={sort} onChange={(e) => setSort(e.target.value as any)}>
+              <option value="rank">Standard first (ranked)</option>
               <option value="relevance">Most relevant</option>
               <option value="cited">Most cited</option>
               <option value="date">Newest</option>
             </select>
           </div>
         </div>
+
+        {showRank && (
+          <div className="rankpanel" id="rank-panel" role="region" aria-label="Rank order">
+            <div className="rankhead">
+              <b>
+                <ListOrdered size={16} /> How results are ranked
+              </b>
+              <span>
+                Evidence tier first, then citations, MEDLINE indexing, open access and recency. {sort !== "rank" && <em>Currently sorted by “{sort === "cited" ? "most cited" : sort === "date" ? "newest" : "most relevant"}”; choose “Standard first” to apply this order.</em>}
+              </span>
+              <button className="btn sm" onClick={() => setShowRank(false)} aria-label="Close rank order">
+                <X size={14} />
+              </button>
+            </div>
+            <ol className="tiers">
+              {TIERS.map((t) => {
+                const n = counts.tiers?.[String(t.n)];
+                const max = Math.max(1, ...TIERS.map((x) => counts.tiers?.[String(x.n)] || 0));
+                return (
+                  <li key={t.n}>
+                    <span className={`tn t${t.n}`}>{t.n}</span>
+                    <span className="tl">
+                      {t.label}
+                      {t.n === 6 && <small> · shown last, not peer-reviewed</small>}
+                    </span>
+                    <span className="track">
+                      <span className="fill" style={{ width: n ? `${Math.max(1.5, (n / max) * 100)}%` : "0%" }} />
+                    </span>
+                    <span className="tc">{n === undefined ? "···" : n < 0 ? "?" : compact.format(n)}</span>
+                  </li>
+                );
+              })}
+            </ol>
+            <div className="rankfoot">Within a tier: more citations → higher. MEDLINE-indexed journals and open-access papers rank slightly above others. Counts use the current filters.</div>
+          </div>
+        )}
 
         <div className="total">
           {loading && !res ? (
@@ -365,8 +408,15 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
         )}
 
         <div className="plist" style={{ opacity: loading && res ? 0.55 : 1, transition: "opacity .2s" }}>
-          {res?.items.map((p) => (
+          {res?.items.map((p, i) => (
             <article className="paper" key={p.id}>
+              {sort === "rank" && p.tier && (
+                <div className="rankbadge">
+                  <span className="pos">#{i + 1}</span>
+                  <span className={`tn t${p.tier}`}>{p.tier}</span>
+                  <span>Tier {p.tier} · {p.tierLabel}</span>
+                </div>
+              )}
               <a className="t" href={p.href} target="_blank" rel="noreferrer">
                 {p.title}
               </a>
@@ -441,13 +491,15 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
                   </a>{" "}
                   <Verified />
                 </li>
-                <li>
-                  Disease term from{" "}
-                  <a href="https://www.nlm.nih.gov/mesh/" target="_blank" rel="noreferrer">
-                    NLM Medical Subject Headings (MeSH)
-                  </a>{" "}
-                  <Verified />
-                </li>
+                {!id.startsWith("q:") && (
+                  <li>
+                    Disease term from{" "}
+                    <a href="https://www.nlm.nih.gov/mesh/" target="_blank" rel="noreferrer">
+                      NLM Medical Subject Headings (MeSH)
+                    </a>{" "}
+                    <Verified />
+                  </li>
+                )}
                 <li>
                   Query used: <code>{res.query}</code>
                 </li>
@@ -458,6 +510,7 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
                 <Verified /> Peer-reviewed, indexed in PubMed/Europe PMC
               </span>
               <span>Counts are live from Europe PMC and may change as new papers are indexed.</span>
+              {sort === "rank" && <span>Ranked view orders the 60 most relevant papers per page; “Load more” ranks the next 60.</span>}
             </div>
             <p className="disclaimer">
               This tool lists published research. It is not medical, veterinary or agricultural advice. Consult a qualified doctor, veterinarian or agronomist

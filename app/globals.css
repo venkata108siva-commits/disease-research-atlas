@@ -259,3 +259,28 @@ details.sources code { font-size: .78rem; background: rgba(0,0,0,.05); padding: 
 .foot .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; }
 .foot a { color: var(--ink-2); }
 .disclaimer { font-size: .8rem; color: var(--ink-3); margin-top: 18px; }
+
+/* rank order */
+.rankpanel { background: var(--surface); border: 1px solid var(--line-2); border-radius: 16px; padding: 14px; margin: 10px 0 12px; box-shadow: var(--shadow); animation: open .2s ease-out; }
+@keyframes open { from { opacity: .4; transform: translateY(-4px); } }
+.rankhead { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: start; margin-bottom: 10px; }
+.rankhead b { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.rankhead span { font-size: .84rem; color: var(--ink-2); }
+.rankhead em { color: var(--accent); font-style: normal; font-weight: 600; }
+@media (max-width: 640px) { .rankhead { grid-template-columns: 1fr auto; } .rankhead span { grid-column: 1 / -1; } }
+.tiers { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tiers li { display: grid; grid-template-columns: 26px minmax(120px, 1fr) minmax(60px, 160px) 44px; gap: 10px; align-items: center; font-size: .86rem; }
+.tiers .tl { font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tiers .tl small { color: var(--ink-3); font-weight: 500; }
+.tiers .track { height: 8px; background: var(--bg-2); border-radius: 999px; overflow: hidden; }
+.tiers .fill { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--brand-2)); border-radius: 999px; transition: width .5s; }
+.tiers .tc { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-3); font-weight: 600; font-size: .8rem; }
+.tn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; color: #fff; font-size: .74rem; font-weight: 800; flex: none; }
+.tn.t1 { background: #15803d; } .tn.t2 { background: #0d9488; } .tn.t3 { background: #2f3bb3; } .tn.t4 { background: #6366f1; } .tn.t5 { background: #a16207; } .tn.t6 { background: #6b7280; }
+.rankfoot { font-size: .78rem; color: var(--ink-3); margin-top: 10px; }
+.rankbadge { display: inline-flex; align-items: center; gap: 8px; font-size: .74rem; font-weight: 700; color: var(--ink-2); margin-bottom: 6px; }
+.rankbadge .pos { color: var(--brand); font-size: .8rem; }
+.results .topic { background: var(--brand-soft); margin-bottom: 4px; }
+.results .topic b { color: var(--brand); }
+.reshead { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 700; padding: 8px 12px 4px; }
+.searchbox input[type="search"]::-webkit-search-cancel-button, .searchbox input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }

@@ -1,8 +1,13 @@
-# Disease Research Atlas
+# Research Atlas
 
-Browse every human, animal and plant disease and agricultural problem, then filter the peer-reviewed research on it by **where the treatment comes from** (plants, fungi, bacteria, endophytes, animals, insects, marine, viruses, synthetic drugs, biologics, minerals, diet, non-drug), study type, research stage, year, country and open access.
+Search any research topic, or browse every human, animal and plant disease and agricultural problem, then filter the peer-reviewed research on it by **where the treatment comes from** (plants, fungi, bacteria, endophytes, animals, insects, marine, viruses, synthetic drugs, biologics, minerals, diet, non-drug), study type, research stage, year, country and open access.
 
 **Live:** https://disease-research-atlas.vercel.app
+
+## Features
+- **Search any topic** (e.g. "endophyte extraction") or browse diseases by section.
+- **Standard-first ranking**: systematic reviews → trials → reviews → original articles → case reports → preprints; the **Rank order** button shows the order and per-tier counts.
+- Filters by treatment source, study type, research stage, year, country, organism/compound and open access.
 
 ## Verified data only
 - Disease classification: **NLM Medical Subject Headings (MeSH)**, 5,000+ terms with sub-types (`scripts/build-mesh.mjs` rebuilds `data/mesh.json`).

@@ -11,6 +11,8 @@ export type Paper = {
   cited: number;
   open: boolean;
   types: string[];
+  allTypes?: string[];
+  source?: string;
   doi?: string;
   pmid?: string;
   href: string;
@@ -50,7 +52,7 @@ export async function counts(queries: Record<string, string>, concurrency = 6): 
 
 export type SearchResult = { total: number; items: Paper[]; nextCursor?: string };
 
-export async function searchPapers(query: string, opts: { sort?: "relevance" | "cited" | "date"; cursor?: string; pageSize?: number } = {}): Promise<SearchResult> {
+export async function searchPapers(query: string, opts: { sort?: "relevance" | "cited" | "date" | "rank"; cursor?: string; pageSize?: number } = {}): Promise<SearchResult> {
   const sort = opts.sort === "cited" ? "CITED desc" : opts.sort === "date" ? "P_PDATE_D desc" : "";
   const d = await call({
     query: sort ? query : query,
@@ -74,6 +76,8 @@ export async function searchPapers(query: string, opts: { sort?: "relevance" | "
     cited: p.citedByCount || 0,
     open: p.isOpenAccess === "Y",
     types: (p.pubTypeList?.pubType || []).filter((t: string) => !/journal article|research-article|english abstract/i.test(t)).slice(0, 3),
+    allTypes: p.pubTypeList?.pubType || [],
+    source: p.source,
     doi: p.doi,
     pmid: p.pmid,
     href: p.doi ? `https://doi.org/${p.doi}` : `https://europepmc.org/article/${p.source}/${p.id}`,

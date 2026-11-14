@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Disease Research Atlas",
+    name: "Research Atlas",
     short_name: "Research Atlas",
-    description: "Verified research for human, animal, plant and agricultural diseases, filtered by source, study type and stage.",
+    description: "Any research topic or disease: peer-reviewed papers ranked standard-first and filtered by source, study type and stage.",
     start_url: "/",
     scope: "/",
     display: "standalone",
