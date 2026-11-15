@@ -23,6 +23,6 @@ export async function GET(req: Request) {
     const b = buildQuery(base, sel);
     for (const t of TIERS) qs[String(t.n)] = `${b} AND ${t.query}`;
   } else for (const f of defs) qs[f.id] = buildQuery(base, { ...sel, [key]: [f.id] });
-  const out = await counts(qs, 7);
+  const out = await counts(qs, 4);
   return NextResponse.json({ group, counts: out }, { headers: { "Cache-Control": "public, s-maxage=43200, stale-while-revalidate=86400" } });
 }

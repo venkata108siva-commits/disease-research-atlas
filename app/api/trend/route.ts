@@ -18,6 +18,6 @@ export async function GET(req: Request) {
   const now = new Date().getFullYear();
   const qs: Record<string, string> = {};
   for (let y = now - 9; y <= now; y++) qs[String(y)] = `${bq} AND PUB_YEAR:${y}`;
-  const out = await counts(qs, 5);
+  const out = await counts(qs, 4);
   return NextResponse.json({ years: Object.entries(out).map(([year, n]) => ({ year, n })) }, { headers: { "Cache-Control": "public, s-maxage=43200, stale-while-revalidate=86400" } });
 }

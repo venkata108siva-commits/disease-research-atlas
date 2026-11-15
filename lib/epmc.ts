@@ -20,11 +20,26 @@ export type Paper = {
   mesh?: string[];
 };
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Europe PMC request with two retries (short backoff) so brief hiccups don't surface as errors. */
 async function call(params: Record<string, string>, timeout = 15000) {
   const u = new URLSearchParams({ format: "json", ...params });
-  const r = await fetch(`${BASE}?${u}`, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(timeout), next: { revalidate: 86400 } } as RequestInit);
-  if (!r.ok) throw new Error(`EPMC ${r.status}`);
-  return r.json();
+  let lastErr: any;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const r = await fetch(`${BASE}?${u}`, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(timeout), next: { revalidate: 86400 } } as RequestInit);
+      if (r.ok) {
+        const j = await r.json();
+        if (j && !j.errCode) return j;
+        lastErr = new Error(j?.errMsg || "EPMC error");
+      } else lastErr = new Error(`EPMC ${r.status}`);
+    } catch (e) {
+      lastErr = e;
+    }
+    await sleep(600 * (attempt + 1));
+  }
+  throw lastErr;
 }
 
 export async function count(query: string): Promise<number> {
@@ -36,7 +51,7 @@ export async function count(query: string): Promise<number> {
   }
 }
 
-export async function counts(queries: Record<string, string>, concurrency = 6): Promise<Record<string, number>> {
+export async function counts(queries: Record<string, string>, concurrency = 4): Promise<Record<string, number>> {
   const keys = Object.keys(queries);
   const out: Record<string, number> = {};
   let i = 0;

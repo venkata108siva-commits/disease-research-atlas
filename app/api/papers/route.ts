@@ -21,10 +21,14 @@ export async function GET(req: Request) {
   const cursor = u.searchParams.get("cursor") || undefined;
   try {
     // Standard-first rank: pull a larger relevance page, then order by evidence tier, citations, indexing, recency.
-    let r = await searchPapers(query, { sort: sort === "rank" ? "relevance" : sort, cursor, pageSize: sort === "rank" ? 60 : 20 });
-    if (sort === "rank" && !cursor) {
-      // First ranked page also draws from the most-cited papers so landmark studies are not missed.
-      const cited = await searchPapers(query, { sort: "cited", pageSize: 40 }).catch(() => null);
+    const first = sort === "rank" && !cursor;
+    // First ranked page also draws from the most-cited papers so landmark studies are not missed.
+    const [rel, cited] = await Promise.all([
+      searchPapers(query, { sort: sort === "rank" ? "relevance" : sort, cursor, pageSize: sort === "rank" ? 60 : 20 }),
+      first ? searchPapers(query, { sort: "cited", pageSize: 40 }).catch(() => null) : Promise.resolve(null),
+    ]);
+    let r = rel;
+    if (first) {
       if (cited) {
         const seen = new Set(r.items.map((p) => p.id));
         r = { ...r, items: [...r.items, ...cited.items.filter((p) => !seen.has(p.id))] };

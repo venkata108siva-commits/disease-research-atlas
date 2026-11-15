@@ -37,7 +37,7 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
   const [loadingMore, setLoadingMore] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [counts, setCounts] = useState<Record<string, Counts>>({});
-  const [trend, setTrend] = useState<{ year: string; n: number }[] | null>(null);
+  const [trend, setTrend] = useState<{ year: string; n: number | null }[] | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [organismInput, setOrganismInput] = useState("");
   const reqId = useRef(0);
@@ -73,16 +73,25 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
     const my = ++reqId.current;
     setLoading(true);
     setErr(null);
-    try {
-      const r = await fetch(`/api/papers?${toParams(id, sel, { sort })}`);
-      const d = await r.json();
-      if (my !== reqId.current) return;
-      if (!r.ok) throw new Error(d.error || "Failed");
-      setRes(d);
-    } catch (e: any) {
-      if (my === reqId.current) setErr(e?.message || "Could not load papers.");
-    } finally {
-      if (my === reqId.current) setLoading(false);
+    const url = `/api/papers?${toParams(id, sel, { sort })}`;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const r = await fetch(url);
+        const d = await r.json();
+        if (my !== reqId.current) return;
+        if (!r.ok) throw new Error(d.error || "Failed");
+        setRes(d);
+        setLoading(false);
+        return;
+      } catch (e: any) {
+        if (my !== reqId.current) return;
+        if (attempt === 0) {
+          await new Promise((r) => setTimeout(r, 1500)); // one silent retry
+          continue;
+        }
+        setErr(e?.message || "Could not load papers.");
+        setLoading(false);
+      }
     }
   }, [id, sel, sort]);
 
@@ -96,17 +105,25 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
     setCounts({});
     setTrend(null);
     (async () => {
-      const groups = ["sources", "studies", "stages", "tiers"];
-      await Promise.all([
-        ...groups.map(async (g) => {
+      const get = async (g: string) => {
+        try {
           const r = await fetch(`/api/counts?${toParams(id, sel, { group: g })}`);
           const d = await r.json();
           if (!dead && d.counts) setCounts((c) => ({ ...c, [g]: d.counts }));
-        }),
+        } catch {}
+      };
+      // Staggered so Europe PMC is not hit with everything at once.
+      await Promise.all([get("sources"), get("tiers")]);
+      if (dead) return;
+      await Promise.all([
+        get("studies"),
+        get("stages"),
         (async () => {
-          const r = await fetch(`/api/trend?${toParams(id, sel)}`);
-          const d = await r.json();
-          if (!dead && d.years) setTrend(d.years);
+          try {
+            const r = await fetch(`/api/trend?${toParams(id, sel)}`);
+            const d = await r.json();
+            if (!dead && d.years) setTrend(d.years.map((y: any) => ({ ...y, n: y.n < 0 ? null : y.n })));
+          } catch {}
         })(),
       ]);
     })();
@@ -366,11 +383,11 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
               <>
                 <div className="trend">
                   {trend.map((t, i) => {
-                    const max = Math.max(...trend.map((x) => x.n), 1);
+                    const max = Math.max(...trend.map((x) => x.n ?? 0), 1);
                     return (
-                      <div key={t.year} title={`${t.year}: ${nf.format(t.n)} papers`}>
-                        <b>{compact.format(t.n)}</b>
-                        <i style={{ height: `${Math.max(2, (t.n / max) * 70)}%`, animationDelay: `${i * 40}ms` }} />
+                      <div key={t.year} title={t.n == null ? `${t.year}: no data` : `${t.year}: ${nf.format(t.n)} papers`}>
+                        <b>{t.n == null ? "?" : compact.format(t.n)}</b>
+                        <i style={{ height: `${Math.max(2, ((t.n ?? 0) / max) * 70)}%`, animationDelay: `${i * 40}ms` }} />
                         <span>{t.year.slice(2)}</span>
                       </div>
                     );
@@ -523,9 +540,10 @@ export function Research({ id, name, domain }: { id: string; name: string; domai
   );
 }
 
-function TrendNote({ trend }: { trend: { year: string; n: number }[] }) {
-  const a = trend.slice(0, 5).reduce((s, x) => s + x.n, 0);
-  const b = trend.slice(5, 9).reduce((s, x) => s + x.n, 0) * (5 / 4); // exclude the current partial year
+function TrendNote({ trend }: { trend: { year: string; n: number | null }[] }) {
+  if (trend.some((x) => x.n == null)) return <div className="gap">Some yearly counts are unavailable right now; try again in a minute.</div>;
+  const a = trend.slice(0, 5).reduce((s, x) => s + (x.n || 0), 0);
+  const b = trend.slice(5, 9).reduce((s, x) => s + (x.n || 0), 0) * (5 / 4); // exclude the current partial year
   if (a === 0 && b === 0) return <div className="gap">No papers in the last 10 years.</div>;
   const pct = a ? Math.round(((b - a) / a) * 100) : 100;
   const word = pct > 15 ? "growing" : pct < -15 ? "declining" : "steady";
